@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дэлхийн Улсууд — World Atlas</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #E8181A;
+  --red2: #C01010;
+  --black: #0A0A0A;
+  --white: #FFFFFF;
+  --offwhite: #F4F1EE;
+  --gray: #888;
+  --light: #D0D0D0;
+  --border: rgba(255,255,255,0.12);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Barlow', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ─── NAVBAR ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 3rem;
+  height: 60px;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.nav-brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.18em;
+  color: var(--red);
+  text-transform: uppercase;
+}
+
+.nav-links {
+  display: flex; gap: 2.5rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  color: var(--white);
+}
+
+.nav-links a.active {
+  position: relative;
+  background: var(--red);
+  color: #fff;
+  padding: 0.3rem 0.9rem;
+  border-radius: 2px;
+}
+
+.nav-search {
+  display: flex; align-items: center; gap: 0.6rem;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 999px;
+  padding: 0.35rem 1rem 0.35rem 1.2rem;
+  width: 200px;
+}
+
+.nav-search input {
+  background: none; border: none; outline: none;
+  color: var(--white);
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.82rem;
+  width: 100%;
+}
+
+.nav-search input::placeholder { color: rgba(255,255,255,0.35); }
+.nav-search span { color: rgba(255,255,255,0.4); font-size: 0.85rem; }
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  height: 100vh; min-height: 650px;
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, #1a2a1a 0%, #0d1a2a 40%, #1a0d0d 100%);
+  overflow: hidden;
+}
+
+.hero-bg-img {
+  position: absolute; inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80');
+  background-size: cover; background-position: center;
+  opacity: 0.55;
+  transform: scale(1.05);
+  animation: heroZoom 20s ease-in-out infinite alternate;
+}
+
+@keyframes heroZoom {
+  from { transform: scale(1.05); }
+  to { transform: scale(1.12); }
+}
+
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom,
+    rgba(10,10,10,0.45) 0%,
+    rgba(10,10,10,0.1) 35%,
+    rgba(10,10,10,0.7) 75%,
+    rgba(10,10,10,0.97) 100%
+  );
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  padding: 0 3rem 4rem;
+  max-width: 1400px; margin: 0 auto; width: 100%;
+}
+
+.hero-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--red);
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+
+.hero-tag::before {
+  content: '';
+  display: block; width: 40px; height: 2px;
+  background: var(--red);
+}
+
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(5rem, 13vw, 11rem);
+  line-height: 0.88;
+  letter-spacing: -0.01em;
+  color: var(--white);
+  animation: titleIn 1s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+.hero-title .red { color: var(--red); }
+
+@keyframes titleIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-bottom {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-top: 2rem;
+  gap: 2rem;
+}
+
+.hero-desc-cols {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 3rem; max-width: 600px;
+}
+
+.hero-desc {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.6);
+}
+
+.hero-cta {
+  display: flex; flex-direction: column; gap: 0.75rem;
+  align-items: flex-end;
+}
+
+.btn-primary {
+  background: var(--red);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.7rem 2rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+
+.btn-primary:hover { background: var(--red2); transform: translateY(-1px); }
+
+.btn-ghost {
+  background: none;
+  color: rgba(255,255,255,0.7);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 999px;
+  padding: 0.5rem 1.6rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-ghost:hover { border-color: #fff; color: #fff; }
+
+.hero-divider {
+  width: 100%; height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+  margin: 1.5rem 0 1rem;
+}
+
+/* ─── RECOMMENDED STRIP ─── */
+.rec-strip {
+  background: var(--black);
+  padding: 0 3rem;
+  max-width: 1400px; margin: 0 auto;
+}
+
+.rec-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 2.5rem 0 1.5rem;
+}
+
+.rec-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--red);
+  text-transform: uppercase;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+
+.rec-title::after {
+  content: '';
+  display: block; flex: 1; width: 60px; height: 1px;
+  background: rgba(255,255,255,0.15);
+}
+
+.rec-more {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.8rem; font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  cursor: pointer;
+  display: flex; align-items: center; gap: 0.5rem;
+  background: none; border: 1px solid rgba(255,255,255,0.15);
+  padding: 0.35rem 1rem; border-radius: 999px;
+  transition: all 0.2s;
+}
+
+.rec-more:hover { color: #fff; border-color: rgba(255,255,255,0.5); }
+
+/* ─── FEATURED GRID ─── */
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding-bottom: 3rem;
+}
+
+.feat-card {
+  position: relative;
+  aspect-ratio: 3/4;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #1a1a1a;
+}
+
+.feat-card:first-child { aspect-ratio: 2/3; }
+
+.feat-card-img {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+
+.feat-card:hover .feat-card-img { transform: scale(1.06); }
+
+.feat-card-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.1) 60%);
+}
+
+.feat-rank {
+  position: absolute; top: 14px; left: 14px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: var(--red);
+}
+
+.feat-info {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 1rem;
+}
+
+.feat-flag {
+  margin-bottom: 0.5rem;
+}
+
+.flag-img {
+  display: inline-block;
+  width: 40px;
+  height: 28px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  background: rgba(255,255,255,0.08);
+}
+
+.flag-img.flag-sm {
+  width: 38px;
+  height: 26px;
+}
+
+.flag-img.flag-lg {
+  width: 72px;
+  height: 50px;
+  border-radius: 6px;
+}
+
+
+.feat-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem; font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.feat-sub {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.55);
+  margin-top: 0.2rem;
+  letter-spacing: 0.06em;
+}
+
+/* ─── WHY SECTION ─── */
+.why-section {
+  background: var(--black);
+  padding: 5rem 3rem;
+  max-width: 1400px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 6rem; align-items: center;
+}
+
+.why-left {}
+
+.why-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--red);
+  text-transform: uppercase;
+  display: flex; align-items: center; gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.why-tag::before { content: ''; width: 30px; height: 2px; background: var(--red); }
+
+.why-heading {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: rgba(255,255,255,0.85);
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+}
+
+.why-text {
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 1.2rem;
+}
+
+.why-right {
+  display: flex; flex-direction: column;
+  gap: 0;
+}
+
+.why-stat {
+  display: flex; align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.why-stat:first-child { border-top: 1px solid rgba(255,255,255,0.07); }
+
+.why-stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3.5rem;
+  color: var(--red);
+  line-height: 1;
+  min-width: 100px;
+}
+
+.why-stat-text { font-size: 0.85rem; line-height: 1.6; color: rgba(255,255,255,0.5); }
+.why-stat-text strong { color: rgba(255,255,255,0.85); display: block; margin-bottom: 0.2rem; font-size: 0.95rem; }
+
+/* ─── EXPLORE SECTION ─── */
+.explore-band {
+  position: relative;
+  min-height: 320px;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: flex-end;
+}
+
+.explore-bg {
+  position: absolute; inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1600&q=80');
+  background-size: cover; background-position: center 40%;
+  opacity: 0.35;
+}
+
+.explore-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.85) 100%);
+}
+
+.explore-content {
+  position: relative; z-index: 2;
+  padding: 4rem 3rem;
+  text-align: right;
+}
+
+.explore-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 10vw, 8rem);
+  line-height: 0.85;
+  color: var(--white);
+  letter-spacing: -0.02em;
+}
+
+.explore-text .red-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--red);
+}
+
+/* ─── FILTERS ─── */
+.filter-section {
+  background: var(--black);
+  padding: 3rem 3rem 1rem;
+  max-width: 1400px; margin: 0 auto;
+}
+
+.filter-row {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.filter-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.25em;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+}
+
+.filter-tabs {
+  display: flex; gap: 0.5rem; flex-wrap: wrap;
+}
+
+.filter-tab {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.45);
+  padding: 0.4rem 1.1rem;
+  border-radius: 2px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-tab:hover { border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.8); }
+
+.filter-tab.active {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+
+.results-info {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.3);
+  text-transform: uppercase;
+}
+
+.results-info strong { color: rgba(255,255,255,0.7); }
+
+/* ─── MAIN GRID ─── */
+.main-section {
+  padding: 0 3rem 6rem;
+  max-width: 1400px; margin: 0 auto;
+}
+
+.country-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1px;
+  background: rgba(255,255,255,0.06);
+}
+
+.country-card {
+  position: relative;
+  background: #0e0e0e;
+  padding: 1.6rem;
+  cursor: pointer;
+  transition: background 0.25s;
+  overflow: hidden;
+  animation: fadeUp 0.5s ease-out both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.country-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--red);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s;
+}
+
+.country-card:hover { background: #151515; }
+.country-card:hover::before { transform: scaleX(1); }
+
+.card-top {
+  display: flex; align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+
+.card-flag { line-height: 1; }
+
+.region-badge {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.65rem;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid currentColor;
+  border-radius: 1px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  opacity: 0.7;
+}
+
+.r-asia    { color: #5BA8E8; }
+.r-europe  { color: #5ED4A0; }
+.r-am      { color: #E8C44A; }
+.r-africa  { color: #E87A5A; }
+.r-oceania { color: #B88AF0; }
+.r-mid     { color: #E8B050; }
+
+.card-name-mn {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--white);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.2rem;
+}
+
+.card-name-en {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+
+.card-line {
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+  margin-bottom: 1.2rem;
+}
+
+.card-stats {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.cstat-val {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.95rem; font-weight: 600;
+  color: rgba(255,255,255,0.85);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.cstat-key {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.62rem; font-weight: 700;
+  color: rgba(255,255,255,0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-top: 0.15rem;
+}
+
+.card-desc {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.32);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-rank-abs {
+  position: absolute;
+  bottom: 1.2rem; right: 1.4rem;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem;
+  color: rgba(255,255,255,0.04);
+  line-height: 1;
+  pointer-events: none;
+  transition: color 0.3s;
+}
+
+.country-card:hover .card-rank-abs { color: rgba(232,24,26,0.08); }
+
+.no-results {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 5rem;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  color: rgba(255,255,255,0.15);
+  letter-spacing: 0.1em;
+  display: none;
+}
+
+/* ─── MODAL ─── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.9);
+  backdrop-filter: blur(16px);
+  z-index: 500;
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-top: 3px solid var(--red);
+  max-width: 640px; width: 100%;
+  max-height: 88vh; overflow-y: auto;
+  transform: translateY(24px);
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  border-radius: 2px;
+}
+
+.modal-overlay.open .modal { transform: translateY(0); }
+
+.modal-header {
+  padding: 2rem 2rem 1.5rem;
+  display: flex; gap: 1.5rem; align-items: flex-start;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  position: sticky; top: 0;
+  background: #111;
+}
+
+.modal-flag { line-height: 1; flex-shrink: 0; }
+
+.modal-title {
+  flex: 1;
+}
+
+.modal-name-mn {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.8rem; line-height: 0.9;
+  color: var(--white);
+  letter-spacing: 0.02em;
+}
+
+.modal-name-en {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+.modal-close {
+  background: none; border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.4);
+  width: 36px; height: 36px;
+  border-radius: 2px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; flex-shrink: 0;
+}
+
+.modal-close:hover { border-color: var(--red); color: var(--red); }
+
+.modal-body { padding: 1.8rem 2rem 2.5rem; }
+
+.modal-stats {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.07);
+  margin-bottom: 2rem;
+}
+
+.mstat {
+  background: #111;
+  padding: 1rem;
+  text-align: center;
+}
+
+.mstat-val {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem; font-weight: 700;
+  color: rgba(255,255,255,0.85);
+}
+
+.mstat-key {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.62rem; font-weight: 700;
+  color: rgba(255,255,255,0.28);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 0.3rem;
+}
+
+.modal-sec {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 0.8rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+
+.modal-sec::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
+
+.modal-desc {
+  font-size: 0.9rem; line-height: 1.8;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 1.8rem;
+}
+
+.modal-highlights {
+  list-style: none;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+.modal-highlights li {
+  display: flex; align-items: flex-start; gap: 0.5rem;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.5;
+}
+
+.modal-highlights li::before {
+  content: '▸';
+  color: var(--red);
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  margin-top: 0.2rem;
+}
+
+/* ─── FOOTER ─── */
+.site-footer {
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding: 1.5rem 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 1400px; margin: 0 auto;
+}
+
+.footer-left {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.3);
+  text-transform: uppercase;
+}
+
+.footer-right {
+  display: flex; gap: 1.5rem;
+}
+
+.footer-right a {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.25);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.footer-right a:hover { color: rgba(255,255,255,0.6); }
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: var(--red); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  nav { padding: 0 1.5rem; }
+  .nav-links { display: none; }
+  .hero-content { padding: 0 1.5rem 3rem; }
+  .hero-desc-cols { grid-template-columns: 1fr; gap: 1rem; }
+  .hero-bottom { flex-direction: column; align-items: flex-start; }
+  .rec-strip, .filter-section, .main-section, .why-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .featured-grid { grid-template-columns: 1fr 1fr; }
+  .why-section { grid-template-columns: 1fr; gap: 3rem; }
+  .country-grid { grid-template-columns: 1fr 1fr; }
+  .explore-content { padding: 3rem 1.5rem; }
+}
+
+@media (max-width: 520px) {
+  .country-grid { grid-template-columns: 1fr; }
+  .featured-grid { grid-template-columns: 1fr; }
+  .modal-highlights { grid-template-columns: 1fr; }
+  .modal-stats { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">🌍 Дэлхийн Атлас</div>
+  <ul class="nav-links">
+    <li><a href="#" class="active" onclick="filterRegion('asia',this)">Ази</a></li>
+    <li><a href="#" onclick="filterRegion('europe',this)">Европ</a></li>
+    <li><a href="#" onclick="filterRegion('am',this)">Америк</a></li>
+    <li><a href="#" onclick="filterRegion('africa',this)">Африк</a></li>
+    <li><a href="#" onclick="filterRegion('oceania',this)">Океани</a></li>
+  </ul>
+  <div class="nav-search">
+    <input type="text" id="searchInput" placeholder="Улс хайх…">
+    <span>🔍</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg">
+    <div class="hero-bg-img"></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content" style="max-width:none; padding-left:3rem; padding-right:3rem;">
+    <div class="hero-tag">Дэлхийн Улс Орнууд — World Atlas 2025</div>
+    <div class="hero-title">
+      <span class="red">ДЭЛХИЙН</span><br>
+      50 УЛСЫН<br>
+      АТЛАС
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-bottom">
+      <div class="hero-desc-cols">
+        <div class="hero-desc">Монгол хэл дээрх дэлхийн улс орнуудын иж бүрэн лавлах. Хүн ам, нийслэл, ДНБ болон онцлог мэдээлэл.</div>
+        <div class="hero-desc">Таны тоглоомын атлас. Бүс нутгаар нь шүүн хайж, улс бүрийн онцлогийг нарийвчлан үзэх боломжтой.</div>
+      </div>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="document.querySelector('.main-section').scrollIntoView({behavior:'smooth'})">Судлах эхлэх</button>
+        <button class="btn-ghost" onclick="filterRegion('all',null)">Бүгдийг харах</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RECOMMENDED PLACES -->
+<div style="max-width:1400px;margin:0 auto;">
+<div class="rec-strip">
+  <div class="rec-header">
+    <div class="rec-title">Онцолсон улсууд</div>
+    <button class="rec-more" onclick="document.querySelector('.main-section').scrollIntoView({behavior:'smooth'})">Бүгдийг үзэх →</button>
+  </div>
+  <div class="featured-grid" id="featuredGrid">
+    <!-- Filled by JS -->
+  </div>
+</div>
+</div>
+
+<!-- WHY SECTION -->
+<div style="max-width:1400px;margin:0 auto;">
+<div class="why-section">
+  <div class="why-left">
+    <div class="why-tag">Яагаад судлах вэ?</div>
+    <div class="why-heading">Дэлхий таны нэгэн<br>том анги өрөө</div>
+    <p class="why-text">Дэлхийн 195 орноос 50 улсын онцлог мэдээллийг Монгол хэл дээр нэгтгэн авчирлаа. Соёл, хоол хүнс, байгаль, түүхийн хосгүй баялгийг нэг дор судалж болно.</p>
+    <p class="why-text">Тал нутгийн ард манай Монголоос эхлээд Амазоны ширэнгэ ой хүртэл — бүх зүйл таны хуруун дороо.</p>
+    <button class="btn-primary" style="margin-top:1.5rem;" onclick="document.querySelector('.main-section').scrollIntoView({behavior:'smooth'})">Одоо судалцгаая</button>
+  </div>
+  <div class="why-right">
+    <div class="why-stat">
+      <div class="why-stat-num">50</div>
+      <div class="why-stat-text"><strong>Улс Орон</strong>6 тивийн улс орнууд бүгд багтсан</div>
+    </div>
+    <div class="why-stat">
+      <div class="why-stat-num">8.1T</div>
+      <div class="why-stat-text"><strong>Дэлхийн Хүн Ам</strong>Бүх улсын нийт хүн амын тоо</div>
+    </div>
+    <div class="why-stat">
+      <div class="why-stat-num">400+</div>
+      <div class="why-stat-text"><strong>Онцлог Баримт</strong>Улс тус бүрийн 8+ сонирхолтой мэдээлэл</div>
+    </div>
+    <div class="why-stat">
+      <div class="why-stat-num">6</div>
+      <div class="why-stat-text"><strong>Тив Бүс Нутаг</strong>Ази, Европ, Америк, Африк, Океани, Дорнод</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- EXPLORE BAND -->
+<div class="explore-band">
+  <div class="explore-bg"></div>
+  <div class="explore-overlay"></div>
+  <div class="explore-content">
+    <div class="explore-text">
+      СУДАЛ<br>
+      <span class="red-outline">ДЭЛХИЙГ</span>
+    </div>
+  </div>
+</div>
+
+<!-- FILTERS -->
+<div class="filter-section">
+  <div class="filter-row">
+    <div class="filter-title">Бүс нутгаар шүүх</div>
+    <div class="filter-tabs" id="filterTabs">
+      <button class="filter-tab active" data-r="all">Бүгд</button>
+      <button class="filter-tab" data-r="asia">🌏 Ази</button>
+      <button class="filter-tab" data-r="europe">🌍 Европ</button>
+      <button class="filter-tab" data-r="am">🌎 Америк</button>
+      <button class="filter-tab" data-r="africa">🌍 Африк</button>
+      <button class="filter-tab" data-r="oceania">🌊 Океани</button>
+      <button class="filter-tab" data-r="mid">🕌 Дунд Дорнод</button>
+    </div>
+    <div class="results-info"><strong id="countDisplay">50</strong> улс</div>
+  </div>
+</div>
+
+<!-- MAIN GRID -->
+<div class="main-section">
+  <div class="country-grid" id="grid"></div>
+  <div class="no-results" id="noResults">ТОХИРОХ УЛС ОЛДСОНГҮЙ…</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="site-footer">
+    <div class="footer-left">© 2025 Дэлхийн Атлас — Монгол хэл дээрх дэлхийн улс орнуудын лавлах</div>
+    <div class="footer-right">
+      <a href="#">Нүүр хуудас</a>
+      <a href="#">Тухай</a>
+      <a href="#">Холбоо барих</a>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-flag" id="mFlag"></div>
+      <div class="modal-title">
+        <div class="modal-name-mn" id="mNameMn"></div>
+        <div class="modal-name-en" id="mNameEn"></div>
+      </div>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-stats" id="mStats"></div>
+      <div class="modal-sec">Товч танилцуулга</div>
+      <div class="modal-desc" id="mDesc"></div>
+      <div class="modal-sec">Онцлог мэдээлэл</div>
+      <ul class="modal-highlights" id="mHighlights"></ul>
+    </div>
+  </div>
+</div>
+
+<script>
+const COUNTRIES = [
+  {id:1,  flag:'🇺🇸', mn:'АНУ',           en:'United States',   region:'am',     pop:'335 сая',  area:'9.83 сая км²', gdp:'$27.4 их наяд',  cap:'Вашингтон Д.С.',  lang:'Англи',  desc:'Дэлхийн хамгийн том эдийн засагтай, технологи, соёл, шинжлэх ухааны тэргүүлэгч орон. Холливуд, Цахим хөндий, НАСА-гаараа алдартай.', highlights:['Hollywood & кино урлаг','NASA & сансар судлал','50 мужтай холбооны улс','Нью-Йорк — санхүүгийн нийслэл','Grand Canyon байгалийн гайхамшиг','Зэвсэгт хүчний хамгийн том','Нобелийн шагналтнуудын 40%','Хөлбөмбөгийн Super Bowl']},
+  {id:8,  flag:'🇨🇦', mn:'Канад',          en:'Canada',           region:'am',     pop:'39 сая',   area:'9.98 сая км²', gdp:'$2.1 их наяд',   cap:'Оттава',          lang:'Англи, Франц', desc:'Дэлхийн хоёр дахь том нутаг дэвсгэртэй орон. Байгалийн баялаг, хүлцэнгүй байдал, олон соёлын нийгэмлэгээрээ алдартай.', highlights:['Rockies уулс','Niagara хүрхрээ','Хоккейн эх орон','Maple syrup дэлхийн 71%','Хоёр хэлт улс','Олон улс иргэнтэй нийгэм','Trans-Canada railway','Justin Trudeau']},
+  {id:35, flag:'🇦🇷', mn:'Аргентин',       en:'Argentina',        region:'am',     pop:'46 сая',   area:'2.78 сая км²', gdp:'$641 тэрбум',    cap:'Буэнос Айрес',    lang:'Испани',  desc:'Өмнөд Американы хоёр дахь том улс. Танго бүжиг, асадо идэш, Лионел Месси болон Пампасын тал нутгаараа алдартай.', highlights:['Lionel Messi эх орон','Танго бүжгийн нутаг','Патагони — говь цөл','Игуасу хүрхрээ','Дэлхийн хамгийн өргөн нийслэл','Мал аж ахуй давамгайлсан','8 удаа дампуурлаа','Copa America 15 удаа']},
+  {id:36, flag:'🇲🇽', mn:'Мексик',         en:'Mexico',           region:'am',     pop:'130 сая',  area:'1.96 сая км²', gdp:'$1.32 их наяд',  cap:'Мехико хот',      lang:'Испани',  desc:'Төв Американы хамгийн том улс. Ацтекийн иргэншил, Майягийн сүм, чили болон тако хоолоороо алдартай.', highlights:['Aztec & Maya соёл','Дэлхийн хамгийн их чили','Chichen Itza гайхамшиг','Tequila & Mariachi','Мехико — 21 сая хүн','NAFTA гишүүн','UNESCO 35 газар','Dia de Muertos']},
+  {id:34, flag:'🇧🇷', mn:'Бразил',         en:'Brazil',           region:'am',     pop:'216 сая',  area:'8.51 сая км²', gdp:'$2.13 их наяд',  cap:'Бразилиа',        lang:'Португали', desc:'Өмнөд Американы хамгийн том улс. Amazon ширэнгэн ой, Carnival наадам, хөлбөмбөгийн мэдрэлтэй орон.', highlights:['Amazon ширэнгэн ой','5 удаа дэлхийн аварга','Rio Carnival','Christ Redeemer статуй','Amazon голын сав','Кофены томоохон экспортлогч','Caipirinha & Samba','Иягуар, акоа амьтад']},
+  {id:37, flag:'🇨🇱', mn:'Чили',           en:'Chile',            region:'am',     pop:'19 сая',   area:'756 мян км²',  gdp:'$360 тэрбум',    cap:'Сантьяго',        lang:'Испани',  desc:'Дэлхийн хамгийн нарийн улс — 4300 км урт, дундаж 175 км өргөн. Хойдоос өмнө зүг уул, говь, туйлыг дамнана.', highlights:['Atacama — хамгийн хуурай говь','Patagonia & мөстлөг','Зэсийн хамгийн том экспортлогч','Рапа Нуи (Easter Island)','Астрономийн тэргүүлэх газар','Вино дарсаараа нэрт','Земляш (Pablo Neruda)','Araucaria мод']},
+  {id:38, flag:'🇨🇴', mn:'Колумб',         en:'Colombia',         region:'am',     pop:'52 сая',   area:'1.14 сая км²', gdp:'$343 тэрбум',    cap:'Богота',          lang:'Испани',  desc:'Ягуар, ширэнгэ ой, кофе, алт болон хамгийн их биологийн олон янз байдалтай орнуудын нэг.', highlights:['Дэлхийн хамгийн сайн кофе','Gabriel García Márquez','Cartagena эртний хот','Ширэнгэ ой & Amazon','Emerald чулуу','Хамгийн их биологийн олон янз','Cumbia & Vallenato хөгжим','Juan Valdez брэнд']},
+  {id:39, flag:'🇵🇪', mn:'Перу',           en:'Peru',             region:'am',     pop:'33 сая',   area:'1.28 сая км²', gdp:'$252 тэрбум',    cap:'Лима',            lang:'Испани, Кечуа', desc:'Инкийн эзэнт гүрний нутаг. Мачу Пикчу, Амазон гол, Перугийн хоол ба биологийн олон янз байдал.', highlights:['Machu Picchu','Инкийн иргэншил','Amazon гол эхлэлтэй','Titicaca нуур','Ceviche хоол','Llama & Alpaca','Nazca зураас','Перугийн хоол — дэлхийн шилдэг']},
+  {id:5,  flag:'🇬🇧', mn:'Их Британи',     en:'United Kingdom',   region:'europe', pop:'68 сая',   area:'242 мян км²',  gdp:'$3.1 их наяд',   cap:'Лондон',          lang:'Англи',  desc:'Англи хэл, Шекспир, Биттлс, Харри Поттер, Ард чулуун тэнгис буюу Английн мэндчилгэ олон улсад алдартай. Brexit-ийн дараах шинэ тусгаар тогтнол.', highlights:['Big Ben & Buckingham','Shakespeare эх орон','The Beatles','Harry Potter','Premier League','Oxford & Cambridge','Brexit 2020','Royal Family']},
+  {id:6,  flag:'🇫🇷', mn:'Франц',          en:'France',           region:'europe', pop:'68 сая',   area:'549 мян км²',  gdp:'$3.0 их наяд',   cap:'Парис',           lang:'Франц',  desc:'Урлаг, гоо сайхан, хоол хүнс, загварын дэлхийн нийслэл. Эйфелийн цамхаг, Лувр музей, Мона Лиза.', highlights:['Eiffel Tower','Louvre Museum','Haute Cuisine','Fashion week','Tour de France','Champagne & Wine','Napoleon Bonaparte','UNESCO-ийн хамгийн олон газар']},
+  {id:7,  flag:'🇮🇹', mn:'Итали',          en:'Italy',            region:'europe', pop:'60 сая',   area:'301 мян км²',  gdp:'$2.25 их наяд',  cap:'Ром',             lang:'Итали',  desc:'Ромын эзэнт гүрний өв, Renaissance урлаг, Ватикан, Pizza, Pasta болон Феррарийн нутаг.', highlights:['Colosseum & Vatican','Leonardo da Vinci','Pizza & Pasta','Ferrari & Lamborghini','Michelangelo','Venice — усан хот','Renaissance нутаг','UEFA Euro хамгийн олон']},
+  {id:4,  flag:'🇩🇪', mn:'Герман',         en:'Germany',          region:'europe', pop:'84 сая',   area:'357 мян км²',  gdp:'$4.4 их наяд',   cap:'Берлин',          lang:'Герман',  desc:'Европын хамгийн том эдийн засаг. BMW, Mercedes, Volkswagen, Siemens зэрэг брэндүүд. Октобerfest, пиво, Баварийн соёл.', highlights:['BMW & Mercedes','Oktoberfest','Berlin Wall история','Beethoven эх орон','Бундеслига','Daimler & Porsche','Дэлхийн дайны тухай ой','Angela Merkel']},
+  {id:46, flag:'🇵🇱', mn:'Польш',          en:'Poland',           region:'europe', pop:'38 сая',   area:'313 мян км²',  gdp:'$842 тэрбум',    cap:'Варшав',          lang:'Польш',  desc:'Зүүн Европын хамгийн том эдийн засаг. Дэлхийн 2-р дайны тулгуур нутаг, Шопены хөгжим, Краковын дунд зууны хот.', highlights:['Frederic Chopin','Auschwitz мемориал','Краков хуучин хот','Marie Curie эх орон','Solidarność хөдөлгөөн','Vodka уламжлал','Amber гайхамшиг','Польш pierogis хоол']},
+  {id:47, flag:'🇨🇿', mn:'Чех',            en:'Czech Republic',   region:'europe', pop:'11 сая',   area:'79 мян км²',   gdp:'$290 тэрбум',    cap:'Прага',           lang:'Чех',    desc:'Нэгдүгээр зэргийн пиво, Прагагийн дунд зууны архитектур болон Бохемийн ширлэн бяслаг.', highlights:['Prague Castle','Pilsner Urquell пиво','Kafka эх орон','Бяслаг уламжлал','Чехийн хрусталь','Velvet Revolution','Чехийн соёлын баялаг','Bohemia нутаг']},
+  {id:48, flag:'🇵🇹', mn:'Португал',       en:'Portugal',          region:'europe', pop:'10 сая',   area:'92 мян км²',   gdp:'$275 тэрбум',    cap:'Лиссабон',        lang:'Португали', desc:'Дэлхийн тэнгисийн замыг нээсэн эрдэмтдийн нутаг. Фаду дуу, Мануэл архитектур, Порт дарс.', highlights:['Vasco da Gama','Fado дуу','Port дарс','Pastéis de nata','Lisbon — эртний нийслэл','Дэлхийн тэнгисийн замын нээгч','Cristiano Ronaldo','Madeira арал']},
+  {id:49, flag:'🇬🇷', mn:'Грек',           en:'Greece',           region:'europe', pop:'11 сая',   area:'132 мян км²',  gdp:'$218 тэрбум',    cap:'Афин',            lang:'Грек',   desc:'Баруун дэлхийн иргэншлийн нутаг. Дунд тэнгис, Акрополь, Олимпийн наадмын эх орон.', highlights:['Acropolis & Parthenon','Олимпийн наадам эх орон','Грекийн гүн ухаан','Santorini арал','Дунд тэнгист нийлдэг','Feta бяслаг','Homer & Socrates','Gyros & Souvlaki']},
+  {id:50, flag:'🇮🇸', mn:'Исланд',         en:'Iceland',           region:'europe', pop:'380 мян',  area:'103 мян км²',  gdp:'$29 тэрбум',     cap:'Рейкьявик',       lang:'Исланд', desc:'Хойд туйлын гэрэл, хэт идэвхитэй галт уул, мөстлөг болон байгалийн бурхан мэт газар нутаг.', highlights:['Хойд туйлын гэрэл','Геотермаль эрчим хүч','Geysir ус','Дэлхийн хамгийн аюулгүй','Glacier хайлж буй','Björk & Sigur Rós','Cod загасны нутаг','2 удаа дэлхийн хэвлэлийн эрх чөлөө №1']},
+  {id:13, flag:'🇨🇭', mn:'Швейцарь',       en:'Switzerland',      region:'europe', pop:'8.7 сая',  area:'41 мян км²',   gdp:'$906 тэрбум',    cap:'Берн',            lang:'Герман, Франц, Итали', desc:'Банкны нийслэл, цагны урлаг, альп ууланд хайлуулсан бяслаг, шоколад болон дэлхийн хамгийн их хувиараа орлоготой улс.', highlights:['Swiss банкны систем','Alps уулс','Цаг & шоколад','Улаан загалмай эх орон','Roger Federer','CERN шинжлэх ухааны төв','4 хэлтэй улс','Нейтрал орон']},
+  {id:14, flag:'🇸🇪', mn:'Швед',           en:'Sweden',           region:'europe', pop:'10.5 сая', area:'450 мян км²',  gdp:'$593 тэрбум',    cap:'Стокхолм',        lang:'Швед',   desc:'Икеа, Вольво, Abba, Нобелийн шагнал, дэлхийн хамгийн тэгш нийгэм тэгш байдлын нэг тул алдартай.', highlights:['IKEA & Volvo','ABBA хөгжим','Nobel шагнал эх орон','Дэлхийн хамгийн тэгш','Midnight sun & Northern lights','Midsommar наадам','Viking соёл','Greta Thunberg']},
+  {id:15, flag:'🇳🇴', mn:'Норвеги',        en:'Norway',           region:'europe', pop:'5.5 сая',  area:'385 мян км²',  gdp:'$546 тэрбум',    cap:'Осло',            lang:'Норвег',  desc:'Дэлхийн хамгийн аз жаргалтай орны жагсаалтад тэргүүлдэг. Фьорд, Викингийн өв, газрын тос болон жинхэнэ залруулсан нийгэм.', highlights:['Fjord байгалийн гайхамшиг','Petroleum Fund дэлхийн хамгийн том','Viking хөлөг онгоц','Northern lights','Salmon загас','Edvard Grieg хөгжим','Гудамжинд 0.01% хоосон','Oslo — дэлхийн хамгийн үнэтэй']},
+  {id:16, flag:'🇩🇰', mn:'Дани',           en:'Denmark',          region:'europe', pop:'5.9 сая',  area:'43 мян км²',   gdp:'$404 тэрбум',    cap:'Копенхаген',      lang:'Дан',    desc:'Жинхэнэ аз жаргалын жишиг Hygge амьдралын хэв маяг, LEGO, Хана Андерсений үлгэрийн орон.', highlights:['LEGO эх орон','Hans Christian Andersen','Hygge concept','Copenhagen дэлхийн хамгийн ногоон','Велосипедийн нийслэл','Noma ресторан','Ногоон эрчим хүч 50%','Little Mermaid хөшөө']},
+  {id:17, flag:'🇫🇮', mn:'Финланд',        en:'Finland',          region:'europe', pop:'5.5 сая',  area:'338 мян км²',  gdp:'$301 тэрбум',    cap:'Хельсинки',       lang:'Финн',   desc:'Дэлхийн хамгийн аз жаргалтай (2018-2023), боловсролын системийн жишиг, хойд туйлын гэрэл болон 188,000 нуур.', highlights:['6 жил дэлхийн №1 аз жаргал','Nokia гарал','Sauna уламжлал','188,000 нуур','Santa Claus — Лапланд','Дэлхийн хамгийн сайн боловсрол','Хойд туйлын гэрэл','Sibelius хөгжим']},
+  {id:18, flag:'🇧🇪', mn:'Бельги',         en:'Belgium',          region:'europe', pop:'11.5 сая', area:'30 мян км²',   gdp:'$623 тэрбум',    cap:'Брюссель',        lang:'Голланд, Франц', desc:'ЕХ-ийн нийслэл, шоколад, Вафли, Тинтин болон дэлхийн хамгийн олон төрлийн шар айрагтай орон.', highlights:['EU штаб байрлах','Belgian шоколад','Belgian Waffle','400 төрлийн шар айраг','Tintin ном','Manneken Pis','Алмазны нийслэл Антверп','Hercule Poirot']},
+  {id:19, flag:'🇦🇹', mn:'Австри',         en:'Austria',          region:'europe', pop:'9 сая',    area:'84 мян км²',   gdp:'$527 тэрбум',    cap:'Вена',            lang:'Герман',  desc:'Моцарт, Бетховен, Шуберт, Иоганн Штраусын нутаг. Венийн классик хөгжим, опера, кофе хаусны соёл.', highlights:['Mozart эх орон','Vienna Philharmonic','Schnitzel хоол','Австрийн Альп','Freud психоанализ','Red Bull эх орон','Венийн Operahouse','Habsburg хааны гүрэн']},
+  {id:20, flag:'🇮🇪', mn:'Ирланд',         en:'Ireland',          region:'europe', pop:'5.1 сая',  area:'70 мян км²',   gdp:'$530 тэрбум',    cap:'Дублин',          lang:'Ирланд, Англи', desc:'Ногоон арал, Гиннесс шар айраг, Жеймс Жойс, U2, Клаффин болон Кельтийн соёлын нутаг.', highlights:['Guinness шар айраг','James Joyce & Oscar Wilde','U2 хөгжим','Ногоон ертөнц','Celtic соёл','Cliffs of Moher','Potato famine түүх','Дэлхийн хамгийн нөхөрсөг']},
+  {id:2,  flag:'🇨🇳', mn:'Хятад',          en:'China',            region:'asia',   pop:'1.41 тэрбум',area:'9.6 сая км²', gdp:'$17.7 их наяд',  cap:'Бээжин',          lang:'Хятад',  desc:'Дэлхийн хамгийн олон хүн амтай улс. 5000 жилийн иргэншил, Цагаан хэрэм, Дундад далайн соёл. Өнөөгийн дэлхийн хоёр дахь том эдийн засаг.', highlights:['Цагаан Хэрэм','5000 жилийн түүх','Дэлхийн 2-р эдийн засаг','БНБ & Панда амьтад','Silk Road эх орон','Huawei & Alibaba','Хятад шоо тоглоом','Olympics 2008']},
+  {id:3,  flag:'🇯🇵', mn:'Япон',           en:'Japan',            region:'asia',   pop:'125 сая',  area:'378 мян км²',  gdp:'$4.2 их наяд',   cap:'Токио',           lang:'Япон',   desc:'Нарны мандах орон. Технологи, аниме, самурай, сүмийн соёл болон дэлхийн хамгийн нягт хотуудын нэг Токиотой орон.', highlights:['Сакура цэцэг','Toyota & Sony','Anime & Manga','Самурай соёл','Mt. Fuji','Суши & Рамен','Синканзений галт тэрэг','Дэлхийн хамгийн урт насалдаг']},
+  {id:9,  flag:'🇰🇷', mn:'Өмнөд Солонгос', en:'South Korea',      region:'asia',   pop:'52 сая',   area:'100 мян км²',  gdp:'$1.71 их наяд',  cap:'Сөүл',            lang:'Солонгос', desc:'K-pop, K-drama, Samsung, Hyundai болон дэлхийг авсан Hallyu соёлын долгионы эх орон. 60 жилд хамгийн хурдан хөгжсөн.', highlights:['BTS & Blackpink','Samsung & Hyundai','K-Drama Netflix','Squid Game','Kimchi хоол','Hanbok дэгэл','Olympic 1988','Itaewon & Gangnam']},
+  {id:28, flag:'🇮🇳', mn:'Энэтхэг',        en:'India',            region:'asia',   pop:'1.43 тэрбум',area:'3.29 сая км²',gdp:'$3.4 их наяд',   cap:'Шинэ Дели',       lang:'Хинди',  desc:'Дэлхийн хамгийн олон хүн амтай (2023). Буддын шашин, Хиндуизм, Тадж Махал, Болливуд, карри хоолны нутаг.', highlights:['Taj Mahal','Bollywood','Curry & Spices','Yoga & Meditation','1.4 тэрбум хүн','IT нийслэл Бангалор','Gandhi & Buddhism','Cricket шүтлэг']},
+  {id:45, flag:'🇲🇳', mn:'Монгол',         en:'Mongolia',         region:'asia',   pop:'3.4 сая',  area:'1.56 сая км²', gdp:'$20 тэрбум',     cap:'Улаанбаатар',     lang:'Монгол',  desc:'Чингис хааны нутаг. Нүүдэлчдийн соёл, тал нутаг, Говь цөл болон дэлхийн хамгийн сийрэг хүн амтай улс. Мал аж ахуй, уул уурхайн нутаг.', highlights:['Чингис хааны нутаг','Их Монгол Улс 13-р зуун','Говь цөл','Нүүдэлчдийн соёл','1.56 сая км² нутаг','Морь & хөөмий','Наадам баяр','Дэлхийн хамгийн том эзэнт гүрний өв']},
+  {id:44, flag:'🇰🇿', mn:'Казахстан',      en:'Kazakhstan',       region:'asia',   pop:'19 сая',   area:'2.72 сая км²', gdp:'$261 тэрбум',    cap:'Астана',          lang:'Казах, Орос', desc:'Төв Азийн хамгийн том улс. Мал аж ахуй, байгалийн баялаг, Байконур сансрын буудал болон тал нутгаараа алдартай.', highlights:['Байконур сансрын буудал','Казах нүүдэлчид','Тал нутгийн улс','Нефть болон газ','Астана шинэ нийслэл','Боратийн соёлын маргаан','Мал аж ахуй уламжлал','Тенгри шашин']},
+  {id:21, flag:'🇸🇬', mn:'Сингапур',       en:'Singapore',        region:'asia',   pop:'5.7 сая',  area:'728 км²',      gdp:'$467 тэрбум',    cap:'Сингапур',        lang:'Англи, Хятад, Малай', desc:'Дэлхийн хамгийн жижиг гэхдээ хамгийн чадварлаг орнуудын нэг. Санхүүгийн нийслэл, агаарын зангилаа, Garden city.', highlights:['Gardens by the Bay','Marina Bay Sands','Changi — дэлхийн хамгийн сайн онгоцны буудал','Hawker Food','4 хэлт улс','Хатуу хуулиудаараа','Дэлхийн санхүүгийн зангилаа','Lee Kuan Yew']},
+  {id:29, flag:'🇮🇩', mn:'Индонези',       en:'Indonesia',        region:'asia',   pop:'278 сая',  area:'1.91 сая км²', gdp:'$1.37 их наяд',  cap:'Жакарта',         lang:'Индонез', desc:'17,000 арлын дайвар улс. Батик, Бали, Боробудур болон тропикийн биологийн олон янз байдлаараа алдартай.', highlights:['17,508 арал','Bali арал','Borobudur буддын хийд','Батик уран зураг','Orangutan амьтан','Дэлхийн 4-р олон хүн амтай','Jokowi ерөнхийлөгч','Краков галт уул']},
+  {id:30, flag:'🇲🇾', mn:'Малайз',         en:'Malaysia',         region:'asia',   pop:'33 сая',   area:'330 мян км²',  gdp:'$440 тэрбум',    cap:'Куала Лумпур',    lang:'Малай',  desc:'Олон яс үндэстний нийгэмлэг. Petronas цамхаг, тропикийн ширэнгэн ой болон Apeйн биологийн олон янз байдал.', highlights:['Petronas Twin Towers','Orangutan ойн','Nasi Lemak хоол','4 шашин нийлдэг','Penang Street Food','Borneo ой','TM куала лумпур','Оленийн хамгийн том мэдэл']},
+  {id:31, flag:'🇹🇭', mn:'Тайланд',        en:'Thailand',         region:'asia',   pop:'71 сая',   area:'513 мян км²',  gdp:'$575 тэрбум',    cap:'Бангкок',         lang:'Тай',    desc:'Буддизмийн сүм, тайлэнд хоол, Пхукетийн далай тэнгис болон "Инээмсэглэлийн нутаг" гэж нэрлэгддэг.', highlights:['Бурханы сүм мянга мянга','Thai хоол — дэлхийн хамгийн амтат','Пхукет & Самуй','Инээмсэглэлийн нутаг','Буддизм 95%','Муай тай барилдаан','Тайн хаант улс','Floating Market']},
+  {id:32, flag:'🇻🇳', mn:'Вьетнам',        en:'Vietnam',          region:'asia',   pop:'98 сая',   area:'331 мян км²',  gdp:'$433 тэрбум',    cap:'Ханой',           lang:'Вьетнам', desc:'Удаан хугацааны дайны дараа хурдацтай хөгжиж буй орон. Halong булан, Hội An хот, Phở хоол болон кофены нутаг.', highlights:['Halong Bay байгалийн гайхамшиг','Hội An эртний хот','Phở & Bánh mì','Вьетнамын дайн туурь','Шар ногоон давтам хариулт','АНУ-тай нийлсэн','Кофены экспортлогч','Doi Moi шинэчлэл']},
+  {id:33, flag:'🇵🇭', mn:'Филиппин',       en:'Philippines',      region:'asia',   pop:'115 сая',  area:'300 мян км²',  gdp:'$440 тэрбум',    cap:'Манила',          lang:'Филипин, Англи', desc:'7641 арлын дайвар улс. Боко боко, Adobo хоол, дэлхийн хамгийн их OFW болон Паганиний нутаг.', highlights:['7641 арал','Palawan арал','Adobo & Lechon','Дэлхийн хамгийн их abroad worker','Mayon галт уул','Karaoke культур','Filipino hospitality','Rodrigo Duterte']},
+  {id:24, flag:'🇶🇦', mn:'Катар',          en:'Qatar',            region:'mid',    pop:'3 сая',    area:'11 мян км²',   gdp:'$220 тэрбум',    cap:'Доха',            lang:'Арав',   desc:'Хамгийн их хүний орлоготой улсуудын нэг. 2022 оны дэлхийн аварга шалгаруулах тэмцээний эзэн. Хий, нефть болон Аль-Жазираагаараа алдартай.', highlights:['World Cup 2022 эзэн','Al Jazeera мэдээ','Дэлхийн 3-т хамгийн их газрын хий','Нэг хүнд ногдох орлого өндөр','Doha — орчин үеийн нийслэл','Qatar Airways','Хиймэл арлууд','Islam & традиц']},
+  {id:25, flag:'🇦🇪', mn:'АНЭУ',           en:'UAE',              region:'mid',    pop:'10 сая',   area:'84 мян км²',   gdp:'$498 тэрбум',    cap:'Абу Даби',        lang:'Арав',   desc:'Бурж Халифа, Дубай, хиймэл арлууд болон уул ус хайрхагүй алтан нийслэлийн нутаг. Дэлхийн хамгийн таатай бизнесийн орчин.', highlights:['Burj Khalifa дэлхийн хамгийн өндөр','Dubai Mall','Palm Islands','Emirates Airlines','Gold Souk','Dune safari','Abu Dhabi Grand Prix','Expo 2020']},
+  {id:26, flag:'🇸🇦', mn:'Саудын Араб',    en:'Saudi Arabia',     region:'mid',    pop:'36 сая',   area:'2.15 сая км²', gdp:'$1.06 их наяд',  cap:'Рияд',            lang:'Арав',   desc:'Исламын ариун газрууд — Мекка, Медина болон дэлхийн нефтийн хамгийн том экспортлогч. Vision 2030 шинэчлэл.', highlights:['Мекка & Медина','OPEC-ын удирдагч','Aramco дэлхийн хамгийн том компани','Vision 2030','Rub Al Khali цөл','Alula эртний хот','МБС ерөнхий сайд','Al-Ula Red Sand']},
+  {id:23, flag:'🇮🇱', mn:'Израиль',        en:'Israel',           region:'mid',    pop:'9.5 сая',  area:'21 мян км²',   gdp:'$521 тэрбум',    cap:'Тель-Авив',       lang:'Еврей, Арав', desc:'Дэлхийн хамгийн их startup-ийн нягтрал, Хуучин Гэрээний нутаг, Иерусалим болон шинжлэх ухаан технологийн тэргүүлэгч.', highlights:['Jerusalem — 3 шашины газар','Startup Nation','Dead Sea — хамгийн доод цэг','Iron Dome','Intel & Waze','Hummus & Falafel','Nobel 12 шагналтан','8М хүн 2 удаа гарган авна']},
+  {id:27, flag:'🇹🇷', mn:'Турк',           en:'Turkey',           region:'mid',    pop:'85 сая',   area:'784 мян км²',  gdp:'$906 тэрбум',    cap:'Анкара',          lang:'Турк',   desc:'Европ ба Азийн огтлолцол. Хайя София, Каппадоки, Турк кофе, бяслаг болон Эрдоганы орн.', highlights:['Hagia Sophia','Cappadocia балончин','Turkish Coffee','Kebab & Baklava','Bosphorus хоолой','Турк хивс','Tarkan хөгжим','Орос & Украиныхантай зуучлагч']},
+  {id:40, flag:'🇿🇦', mn:'Өмнөд Африк',    en:'South Africa',     region:'africa', pop:'60 сая',   area:'1.22 сая км²', gdp:'$399 тэрбум',    cap:'Претория',        lang:'11 хэл', desc:'Нельсон Мандела, Алмаз, Алт болон Африкийн хамгийн хөгжингүй эдийн засаг. Зэрлэг амьтдын хаант орон.', highlights:['Nelson Mandela','Apartheid дараах','Big 5 зэрлэг амьтан','Дэлхийн хамгийн тэгш бус','Cape Town байгалийн гайхамшиг','Алт болон Алмаз','11 хэл заштай улс','Rugby World Cup']},
+  {id:41, flag:'🇪🇬', mn:'Египет',         en:'Egypt',            region:'africa', pop:'106 сая',  area:'1.0 сая км²',  gdp:'$396 тэрбум',    cap:'Каир',            lang:'Арав',   desc:'Дэлхийн эртний иргэншлийн нэг. Пирамид, Фараон, Нил гол, Клеопатра болон Египетийн туризмаараа алдартай.', highlights:['Giza Pyramid — дэлхийн 7 гайхамшиг','Nile — дэлхийн хамгийн урт гол','Tutankhamun','Cleopatra түүх','Suez Canal','Abu Simbel сүм','Cairo — 22 сая хүн','Египетийн пайрус']},
+  {id:42, flag:'🇲🇦', mn:'Марокко',        en:'Morocco',          region:'africa', pop:'38 сая',   area:'447 мян км²',  gdp:'$131 тэрбум',    cap:'Рабат',           lang:'Арав, Берб', desc:'Африк ба Европын давхар соёл. Фес, Марракеш, Сахарын говь болон дэлхийн хамгийн алдартай соук зах.', highlights:['Fes Medina','Marrakech souks','Sahara Desert','Couscous & Tagine','Hassan II mosque','Atlas Mountains','Argan oil','Kasbah Ait Ben Haddou']},
+  {id:43, flag:'🇳🇬', mn:'Нигери',         en:'Nigeria',          region:'africa', pop:'223 сая',  area:'924 мян км²',  gdp:'$477 тэрбум',    cap:'Абуджа',          lang:'Англи',  desc:'Африкийн хамгийн олон хүн амтай улс. Нефть, Нолливуд, Мимозагийн амт болон Африкийн хамгийн том эдийн засаг.', highlights:['Африкийн хамгийн том эдийн засаг','Nollywood кино','Lagos — 15 сая хүн','Нефтийн баялаг','Afrobeats хөгжим','Wizkid & Burna Boy','250 гаруй угсаатан','Чин хурдацтай хөгжилт']},
+  {id:10, flag:'🇦🇺', mn:'Австрали',       en:'Australia',        region:'oceania',pop:'26 сая',   area:'7.69 сая км²', gdp:'$1.71 их наяд',  cap:'Канберра',        lang:'Англи',  desc:'Дэлхийн хамгийн жижиг тив бөгөөд хамгийн том арлын орон. Кенгуру, Коала, Great Barrier Reef болон Sydney Opera House.', highlights:['Great Barrier Reef','Sydney Opera House','Кенгуру & Коала','Cricket & Rugby','Улаан цөл Улуру','Gold Coast далайн эрэг','BHP уул уурхай','Steve Irwin']},
+  {id:22, flag:'🇳🇿', mn:'Шинэ Зеланд',    en:'New Zealand',      region:'oceania',pop:'5.1 сая',  area:'268 мян км²',  gdp:'$244 тэрбум',    cap:'Веллингтон',      lang:'Англи, Маори', desc:'LOTR-ийн нутаг, Хака бүжиг, Маори соёл болон дэлхийн хамгийн цэвэр байгалийн нэг. All Blacks rugby-аараа алдартай.', highlights:['Lord of the Rings нутаг','All Blacks rugby','Maori haka бүжиг','Fiordland National Park','Хамгийн эхэлж шинэ жил угтдаг','Жаалдайтны эрх - 1893 эмэгтэй санал','Hobbiton','Kiwi шувуу']},
+  {id:11, flag:'🇪🇸', mn:'Испани',         en:'Spain',            region:'europe', pop:'47 сая',   area:'506 мян км²',  gdp:'$1.58 их наяд',  cap:'Мадрид',          lang:'Испани',  desc:'Фламенко, La Liga, Гауди, Испанийн хоол, Барселона болон дэлхийн хамгийн алдартай аялал жуулчлалын улсуудын нэг.', highlights:['FC Barcelona & Real Madrid','Gaudi Architecture','Flamenco бүжиг','Paella & Tapas','Running of the Bulls','Picasso & Dali','FIFA World Cup 2010','Camino de Santiago']},
+  {id:12, flag:'🇳🇱', mn:'Нидерланд',      en:'Netherlands',      region:'europe', pop:'17.9 сая', area:'41 мян км²',   gdp:'$1.09 их наяд',  cap:'Амстердам',       lang:'Голланд', desc:'Далайн доогуур нутаг. Windmill, Tulip, Van Gogh, Amsterdam суваг, велосипед болон либерал соёлын нутаг.', highlights:['Windmill & Tulip','Van Gogh Museum','Amsterdam суваг','Велосипедийн нийслэл','ASML chip technology','Gouda & Edam бяслаг','Rembrandt','Netherlands liberal policy']},
+];
+
+function flagEmojiToCode(flag) {
+  if (!flag || flag.length < 2) return '';
+  return Array.from(flag)
+    .map(ch => ch.codePointAt(0) - 127397)
+    .map(cp => String.fromCharCode(cp))
+    .join('')
+    .toLowerCase();
+}
+
+function flagImg(flag, alt = 'flag', size = 'sm') {
+  const code = flagEmojiToCode(flag);
+  if (!code) return `<span>${flag || ''}</span>`;
+  return `<img class="flag-img flag-${size}" src="https://flagcdn.com/w160/${code}.png" alt="${alt} flag" loading="lazy">`;
+}
+
+const FEATURED_IMGS = {
+  45: 'https://images.unsplash.com/photo-1565378007936-1e1a3d9e8b4b?w=600&q=80',
+  3:  'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=80',
+  6:  'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&q=80',
+  10: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80',
+  22: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=80',
+  1:  'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?w=600&q=80',
+  2:  'https://images.unsplash.com/photo-1508804052814-cd3ba865a116?w=600&q=80',
+};
+
+const REGION_LABEL = {asia:'Ази',europe:'Европ',am:'Америк',africa:'Африк',oceania:'Океани',mid:'Дунд Дорнод'};
+const REGION_CLASS = {asia:'r-asia',europe:'r-europe',am:'r-am',africa:'r-africa',oceania:'r-oceania',mid:'r-mid'};
+
+let activeRegion = 'all';
+let searchTerm = '';
+
+// FEATURED
+const featuredIds = [45, 3, 6, 10, 22];
+const fg = document.getElementById('featuredGrid');
+featuredIds.forEach((id, i) => {
+  const c = COUNTRIES.find(x => x.id === id);
+  if (!c) return;
+  const card = document.createElement('div');
+  card.className = 'feat-card';
+  const imgUrl = FEATURED_IMGS[id] || 'https://images.unsplash.com/photo-1508804052814-cd3ba865a116?w=600&q=80';
+  card.innerHTML = `
+    <div class="feat-card-img" style="background-image:url('${imgUrl}')"></div>
+    <div class="feat-card-overlay"></div>
+    <div class="feat-rank">${i+1}${['st','nd','rd','th','th'][i]}</div>
+    <div class="feat-info">
+      <div class="feat-flag">${flagImg(c.flag, c.en, 'sm')}</div>
+      <div class="feat-name">${c.mn}</div>
+      <div class="feat-sub">${c.en} · ${REGION_LABEL[c.region]}</div>
+    </div>
+  `;
+  card.addEventListener('click', () => openModal(c));
+  fg.appendChild(card);
+});
+
+// GRID
+function renderGrid() {
+  const grid = document.getElementById('grid');
+  const noResults = document.getElementById('noResults');
+  grid.innerHTML = '';
+  let count = 0;
+
+  COUNTRIES.forEach((c, i) => {
+    if (activeRegion !== 'all' && c.region !== activeRegion) return;
+    if (searchTerm && !c.mn.toLowerCase().includes(searchTerm) && !c.en.toLowerCase().includes(searchTerm)) return;
+    count++;
+
+    const card = document.createElement('div');
+    card.className = 'country-card';
+    card.style.animationDelay = (count * 0.035) + 's';
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="card-flag">${flagImg(c.flag, c.en, 'sm')}</div>
+        <span class="region-badge ${REGION_CLASS[c.region]}">${REGION_LABEL[c.region]}</span>
+      </div>
+      <div class="card-name-mn">${c.mn}</div>
+      <div class="card-name-en">${c.en}</div>
+      <div class="card-line"></div>
+      <div class="card-stats">
+        <div class="cstat"><div class="cstat-val">${c.pop}</div><div class="cstat-key">Хүн ам</div></div>
+        <div class="cstat"><div class="cstat-val">${c.gdp}</div><div class="cstat-key">ДНБ</div></div>
+        <div class="cstat"><div class="cstat-val">${c.cap}</div><div class="cstat-key">Нийслэл</div></div>
+        <div class="cstat"><div class="cstat-val">${c.lang}</div><div class="cstat-key">Хэл</div></div>
+      </div>
+      <div class="card-desc">${c.desc}</div>
+      <div class="card-rank-abs">${c.id}</div>
+    `;
+    card.addEventListener('click', () => openModal(c));
+    grid.appendChild(card);
+  });
+
+  document.getElementById('countDisplay').textContent = count;
+  noResults.style.display = count === 0 ? 'block' : 'none';
+}
+
+// FILTER TABS
+document.getElementById('filterTabs').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-tab');
+  if (!btn) return;
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeRegion = btn.dataset.r;
+  renderGrid();
+});
+
+// NAV LINKS
+function filterRegion(r, el) {
+  activeRegion = r;
+  document.querySelectorAll('.filter-tab').forEach(b => {
+    b.classList.toggle('active', b.dataset.r === r);
+  });
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  if (el) el.classList.add('active');
+  renderGrid();
+  document.querySelector('.main-section').scrollIntoView({behavior:'smooth'});
+}
+
+// SEARCH
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchTerm = e.target.value.toLowerCase().trim();
+  renderGrid();
+});
+
+// MODAL
+function openModal(c) {
+  document.getElementById('mFlag').innerHTML = flagImg(c.flag, c.en, 'lg');
+  document.getElementById('mNameMn').textContent = c.mn;
+  document.getElementById('mNameEn').textContent = c.en + ' · ' + REGION_LABEL[c.region];
+
+  document.getElementById('mStats').innerHTML = [
+    {v:c.pop,k:'Хүн ам'},{v:c.area,k:'Нутаг дэвсгэр'},{v:c.gdp,k:'ДНБ'},
+    {v:c.cap,k:'Нийслэл'},{v:c.lang,k:'Хэл'},{v:'#'+c.id,k:'Дугаар'}
+  ].map(s=>`<div class="mstat"><div class="mstat-val">${s.v}</div><div class="mstat-key">${s.k}</div></div>`).join('');
+
+  document.getElementById('mDesc').textContent = c.desc;
+  document.getElementById('mHighlights').innerHTML = c.highlights.map(h=>`<li>${h}</li>`).join('');
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+renderGrid();
+</script>
+</body>
+</html>
